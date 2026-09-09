@@ -35,15 +35,15 @@ Unlike conventional web portfolios, this site renders an interactive, atmospheri
   `Wireshark`, `Splunk SIEM`, `Nmap`, `Metasploit`, `Burp Suite`, `Docker`, `Python`, `Kali Linux`, `Claude API`, `Gemini 2.5 Flash`, `Ghidra`, and `Snort`.
 - Reactive bezier energy ribbons and ambient digital ember particles responding to pointer physics.
 
-### 3. **Scene 03 — The Chrono (2021 – 2026 Time Machine)**
+### 3. **Scene 03 — The Chrono (2023 – 2026 Journey)**
 - Radial timeline clock dial and interactive circular arc rail.
 - Dragging the pointer sweeps the clock hand across career milestones:
-  - **2021 — Foundations:** B.Tech CSE Core, Networking Protocols & Linux OS.
-  - **2022 — Cyber Mastery:** Python Security Scripting, Packet Inspection & SIEM Basics.
-  - **2023 — Hackathon Champion:** 1st Place @ IIT Madras Ethical Hacking Hackathon.
-  - **2024 — Published Research:** First-Author IoT Intrusion Detection Paper (IJNRD Impact Factor 8.76, 98.31% Accuracy).
-  - **2025 — Cybersicker AI:** Dual-Core Autonomous Agentic SOC AI Platform & Streamlit Real-Time Dashboard.
-  - **2026 — Lead Auditor & DEF CON:** ISO/IEC 27001 Lead Auditor, DEF CON Group Tiruchirappalli Founder, 5 Industry Internships.
+  - **2023 — DSU B.Tech Genesis:** Joined Dhanalakshmi Srinivasan University (Aug 2023), Cybersecurity Major, Networking & Linux.
+  - **2024 — Research & IIT Bombay:** Cybersecurity Training @ IIT Bombay, Blockchain Integrity research presented at ICIAAIEA '24.
+  - **2025 — Ethical Hacking Champion:** 1st Place @ IIT Madras Ethical Hacking Hackathon, 1st Prize AVINYA '25.
+  - **2025 — SOC & SIEM Operations:** Cybersecurity Analyst Intern @ Vetri Technologies (Splunk SIEM), 1st Prize ERP Design.
+  - **2026 — Published Research & AI:** First-Author IoT Intrusion Detection Paper (IJNRD IF 8.76, 98.31% Accuracy), Cybersicker AI.
+  - **2026 — DEF CON & Leadership:** Founded DEF CON Group Tiruchirappalli (DC0431), Google Campus Ambassador, 5 Industry Internships.
 
 ### 4. **Scene 04 — Arsenal (3D Project Gallery & System Intel)**
 - Depth-sorted 3D spatial card deck with pointer yaw, scroll dolly, and hover elevation.

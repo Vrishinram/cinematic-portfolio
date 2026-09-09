@@ -51,7 +51,7 @@ export async function initChrono() {
     el.setAttribute('aria-label', `${y.year} — ${y.key}`);
     el.innerHTML =
       `<span class="yr__frame">`
-      + `<img class="yr__img" src="public/years/${y.year}.jpg" alt="" `
+      + `<img class="yr__img" src="public/years/${y.img || y.year}.jpg" alt="" `
       + `loading="lazy" decoding="async">`
       + `<span class="yr__body">`
       + `<span class="yr__year">${y.year}</span>`

@@ -11,34 +11,40 @@
 
 export const YEARS = [
   {
-    year: 2021,
-    key: 'Foundations',
-    lines: ['B.Tech CSE Core', 'Networking & OS', 'First Exploit Labs'],
+    year: '2023',
+    img: '2021',
+    key: 'DSU B.Tech Genesis',
+    lines: ['Joined DSU B.Tech', 'Cybersecurity Major', 'Networking & Linux'],
   },
   {
-    year: 2022,
-    key: 'Cyber Mastery',
-    lines: ['Linux Internals', 'Python Scripting', 'Packet Inspection'],
+    year: '2024',
+    img: '2022',
+    key: 'Research & Training',
+    lines: ['IIT Bombay Training', 'Blockchain Integrity', 'ICIAAIEA 2024 Paper'],
   },
   {
-    year: 2023,
-    key: 'Hackathon Win',
+    year: '2025',
+    img: '2023',
+    key: 'IIT Madras Champion',
     lines: ['1st Place IIT Madras', 'Ethical Hacking Champ', 'Live CTF Dominance'],
   },
   {
-    year: 2024,
-    key: 'Research Published',
-    lines: ['IoT IDS Paper (IJNRD)', '98.31% ML Accuracy', 'Impact Factor 8.76'],
+    year: '2025',
+    img: '2024',
+    key: 'SOC & Threat Analysis',
+    lines: ['Vetri Tech SOC Intern', 'Splunk SIEM Triage', 'ERP Design 1st Prize'],
   },
   {
-    year: 2025,
-    key: 'Cybersicker AI',
-    lines: ['Autonomous SOC Agent', 'Threat Hunting Engine', 'Automated IR'],
+    year: '2026',
+    img: '2025',
+    key: 'First-Author Research',
+    lines: ['IJNRD Paper (IF 8.76)', '98.31% IoT Accuracy', 'Cybersicker SOC AI'],
   },
   {
-    year: 2026,
-    key: 'Lead Auditor & DEF CON',
-    lines: ['ISO 27001 LA & CLLMSE', 'DEF CON Trichy Founder', '5 Industry Internships'],
+    year: '2026',
+    img: '2026',
+    key: 'DEF CON & Leadership',
+    lines: ['DEF CON Trichy Founder', 'Google Ambassador', '5 Industry Internships'],
   },
 ];
 
