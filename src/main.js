@@ -102,13 +102,13 @@ async function main() {
   // the later scenes build while the hero plays, so scrolling into them is
   // instant; each one runs only while it is actually on screen
   initUniverse().then((u) => { app.universe = u; })
-    .catch((e) => console.warn('[gireesh] universe unavailable:', e.message));
+    .catch((e) => console.warn('[cinematic] universe unavailable:', e.message));
   initChrono().then((c) => { app.chrono = c; })
-    .catch((e) => console.warn('[gireesh] chrono unavailable:', e.message));
+    .catch((e) => console.warn('[cinematic] chrono unavailable:', e.message));
   initGallery().then((g) => { app.gallery = g; })
-    .catch((e) => console.warn('[gireesh] gallery unavailable:', e.message));
+    .catch((e) => console.warn('[cinematic] gallery unavailable:', e.message));
   initFinale().then((f) => { app.finale = f; })
-    .catch((e) => console.warn('[gireesh] finale unavailable:', e.message));
+    .catch((e) => console.warn('[cinematic] finale unavailable:', e.message));
 
   if (!playing) return awaitGesture();
   begin();
@@ -233,14 +233,14 @@ function frame(now) {
 // --------------------------------------------------------------------------
 
 function degrade(reason) {
-  console.warn('[gireesh] falling back:', reason);
+  console.warn('[cinematic] falling back:', reason);
   root.classList.remove('is-booting');
   root.classList.add('is-fallback');
   boot.classList.add('is-done');
   for (const [, name] of CUES) root.classList.add(`is-${name}`);
   document.querySelector('.stage-wrap').insertAdjacentHTML('afterbegin',
-    '<div class="fallback"><p>GIREESH</p>'
-    + '<small>Welcome to my world</small></div>');
+    '<div class="fallback"><p>VRISHIN</p>'
+    + '<small>Autonomous Defense & Intelligence</small></div>');
 }
 
 function renderStill() {

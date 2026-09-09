@@ -12,33 +12,33 @@
 export const YEARS = [
   {
     year: 2021,
-    key: 'Beginning',
-    lines: ['New city', 'New chapter', 'Bigger dreams'],
+    key: 'Foundations',
+    lines: ['B.Tech CSE Core', 'Networking & OS', 'First Exploit Labs'],
   },
   {
     year: 2022,
-    key: 'Exploration',
-    lines: ['Learned design', 'Found direction'],
+    key: 'Cyber Mastery',
+    lines: ['Linux Internals', 'Python Scripting', 'Packet Inspection'],
   },
   {
     year: 2023,
-    key: 'Practice',
-    lines: ['Built skills', 'Made projects', 'Kept going'],
+    key: 'Hackathon Win',
+    lines: ['1st Place IIT Madras', 'Ethical Hacking Champ', 'Live CTF Dominance'],
   },
   {
     year: 2024,
-    key: 'Growth',
-    lines: ['Real projects', 'Real people', 'Real learning'],
+    key: 'Research Published',
+    lines: ['IoT IDS Paper (IJNRD)', '98.31% ML Accuracy', 'Impact Factor 8.76'],
   },
   {
     year: 2025,
-    key: 'Opportunities',
-    lines: ['Collaborated', 'Solved problems', 'Stepped up'],
+    key: 'Cybersicker AI',
+    lines: ['Autonomous SOC Agent', 'Threat Hunting Engine', 'Automated IR'],
   },
   {
     year: 2026,
-    key: 'Next chapter',
-    lines: ['Bigger goals', 'More impact', 'Still designing'],
+    key: 'Lead Auditor & DEF CON',
+    lines: ['ISO 27001 LA & CLLMSE', 'DEF CON Trichy Founder', '5 Industry Internships'],
   },
 ];
 

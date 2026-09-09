@@ -62,6 +62,88 @@ export async function initGallery() {
   });
   person.style.zIndex = '34';
 
+  // ---- project details modal -----------------------------------------------
+  const pinEl = section.querySelector('.gallery__pin') || section;
+  const modal = document.createElement('aside');
+  modal.className = 'g-modal';
+  modal.setAttribute('aria-hidden', 'true');
+  modal.innerHTML = `
+    <div class="g-modal__backdrop"></div>
+    <div class="g-modal__box" role="dialog" aria-modal="true">
+      <button type="button" class="g-modal__close" aria-label="Close details">&times;</button>
+      <div class="g-modal__content">
+        <span class="g-modal__eyebrow">ARSENAL INTEL // SYSTEM RECORD</span>
+        <h3 class="g-modal__title"></h3>
+        <p class="g-modal__desc"></p>
+        <div class="g-modal__tags"></div>
+        <div class="g-modal__actions">
+          <a class="g-modal__btn" href="https://github.com/Vrishinram" target="_blank" rel="noopener noreferrer">
+            <span>Explore Repository</span>
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12 L12 4 M6 4 H12 V10"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+  pinEl.appendChild(modal);
+
+  const titleEl = modal.querySelector('.g-modal__title');
+  const descEl = modal.querySelector('.g-modal__desc');
+  const tagsBox = modal.querySelector('.g-modal__tags');
+  const actionsBox = modal.querySelector('.g-modal__actions');
+  const closeBtn = modal.querySelector('.g-modal__close');
+  const backdrop = modal.querySelector('.g-modal__backdrop');
+
+  const closeModal = () => {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+  };
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  cards.forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const c = CARDS[i];
+      titleEl.textContent = c.title;
+      descEl.textContent = c.desc || 'Cybersecurity system architecture & research implementation.';
+      tagsBox.innerHTML = '';
+      (c.tags || ['Cybersecurity', 'AI Agents', 'Research']).forEach((tag) => {
+        const sp = document.createElement('span');
+        sp.className = 'g-modal__tag';
+        sp.textContent = tag;
+        tagsBox.appendChild(sp);
+      });
+
+      actionsBox.innerHTML = '';
+      if (c.live) {
+        const liveBtn = document.createElement('a');
+        liveBtn.className = 'g-modal__btn g-modal__btn--live';
+        liveBtn.href = c.live;
+        liveBtn.target = '_blank';
+        liveBtn.rel = 'noopener noreferrer';
+        liveBtn.style.background = 'rgba(0, 255, 136, 0.15)';
+        liveBtn.style.borderColor = 'rgba(0, 255, 136, 0.4)';
+        liveBtn.style.color = '#00FF88';
+        liveBtn.innerHTML = `<span>Launch Live Demo</span><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3" fill="#00FF88"/><path d="M4 12 L12 4 M6 4 H12 V10"/></svg>`;
+        actionsBox.appendChild(liveBtn);
+      }
+      const repoBtn = document.createElement('a');
+      repoBtn.className = 'g-modal__btn';
+      repoBtn.href = c.github || 'https://github.com/Vrishinram';
+      repoBtn.target = '_blank';
+      repoBtn.rel = 'noopener noreferrer';
+      repoBtn.innerHTML = `<span>Source Code</span><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12 L12 4 M6 4 H12 V10"/></svg>`;
+      actionsBox.appendChild(repoBtn);
+
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    });
+  });
+
   // ---- placement -----------------------------------------------------------
   let portrait = false;
   function place() {
