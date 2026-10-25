@@ -86,6 +86,7 @@ async function main() {
     });
   };
   app.clips.hero = mk('hero', 0.7);
+  window.__heroClip = app.clips.hero;
 
   layout();
   window.addEventListener('resize', debounce(layout, 140));

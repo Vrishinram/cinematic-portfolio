@@ -245,9 +245,8 @@ export class Stage {
     gl.uniform2f(p.u.uTexel, 0.5 / (clip.w * 2), 0.5 / clip.h);
     gl.uniform1f(p.u.uOpacity, st.opacity * clip.seamFade());
     gl.uniform1f(p.u.uReveal, st.reveal);
-    // his shoes dissolve into the dark instead of ending on a hard edge, which
-    // also disposes of the floor highlight the key could not fully remove
-    gl.uniform1f(p.u.uFeetFade, 0.085);
+    // subtle shoe ground contact softening
+    gl.uniform1f(p.u.uFeetFade, 0.02);
     gl.uniform1f(p.u.uTopFade, 0.012);
     gl.uniform1f(p.u.uExposure, 1.24);
     gl.uniform1f(p.u.uLift, 1.35);
@@ -256,7 +255,7 @@ export class Stage {
     gl.uniform1f(p.u.uRimRed, 0.30);
     gl.uniform1f(p.u.uContrast, 1.13);
     gl.uniform1f(p.u.uDesat, 0.2);
-    gl.uniform1f(p.u.uFloorY, 0.845);
+    gl.uniform1f(p.u.uFloorY, 0.985);
     const { word, h } = this.layout;
     gl.uniform2f(p.u.uBand, word.y / h, (word.y + word.h) / h);
     this._quad(p, geo.rect, [0, 0, 1, 1], skew);
