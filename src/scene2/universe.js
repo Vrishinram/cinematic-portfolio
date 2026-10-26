@@ -324,7 +324,7 @@ export class Universe {
       let lh = (pad * cardAspect) / la;
       if (lh > pad) { lh = pad; lw = (pad * la) / cardAspect; }
       gl.uniform2f(pr.u.uLogoScale, lw, lh);
-      gl.uniform1f(pr.u.uRadius, 0.22);
+      gl.uniform1f(pr.u.uRadius, 0.28); // Increased bevel radius for softened acrylic edges
       gl.uniform1f(pr.u.uAspect, cardAspect);
       gl.uniform1f(pr.u.uOpacity, s.mat);
       gl.uniform1f(pr.u.uMat, s.mat);

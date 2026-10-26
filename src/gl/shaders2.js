@@ -145,7 +145,7 @@ in float vDepth;
 uniform sampler2D uLogo;
 uniform sampler2D uGrain;
 uniform vec2  uLogoScale;   // logo size within the face, 0..1
-uniform float uRadius;      // corner radius in local units
+uniform float uRadius;      // corner radius in local units (increased bevel radius)
 uniform float uOpacity;
 uniform float uMat;         // materialisation 0..1
 uniform float uHover;
@@ -165,48 +165,63 @@ void main(){
   vec2 b = vec2(uAspect, 1.0);
   float d = sdRound(p, b, uRadius);
 
-  // the slab softens while it is still materialising, so it resolves INTO
-  // focus rather than fading in at full sharpness
-  float soft = mix(0.075, 0.006, uMat);
+  // Softened anti-aliased edge to eliminate hard razor edges
+  float soft = mix(0.065, 0.005, uMat);
   float face = smoothstep(soft, -soft, d);
-  if(face <= 0.002) discard;
+  if(face <= 0.001) discard;
 
-  // --- slab material -----------------------------------------------------
-  vec3 col = vec3(0.055, 0.055, 0.066);
-  col *= 1.0 - 0.40 * (vP.y * 0.5 + 0.5);          // top lighter than bottom
+  // --- High-tech Glassmorphism / Dark Acrylic Material -------------------
+  // Base smoky translucent glass (depth transmission gradient)
+  vec3 glassBase = vec3(0.024, 0.026, 0.035);
+  glassBase += vec3(0.014, 0.016, 0.022) * (1.0 - (vP.y * 0.5 + 0.5));
 
-  // a graphite sheen across the face, so the slab reads as a surface with a
-  // direction rather than as a flat swatch
-  col += vec3(0.030, 0.031, 0.038)
-       * clamp(0.5 - vP.x * 0.35 + vP.y * 0.22, 0.0, 1.0);
+  // Polished reflective sheen (roughness: 0.15, metalness: 0.75)
+  vec2 normP = normalize(p + 1e-5);
+  vec2 lightDir = normalize(uLight);
+  float facing = clamp(dot(normP, lightDir), 0.0, 1.0);
 
-  // rim: brightest where the slab edge faces the scene's light
-  float rim = smoothstep(0.075, 0.0, abs(d));
-  float facing = clamp(dot(normalize(p + 1e-5), normalize(uLight)), 0.0, 1.0);
-  col += vec3(0.95, 0.18, 0.16) * rim * (0.12 + 0.88 * facing) * (0.65 + uHover);
-  col += vec3(0.42, 0.45, 0.54) * rim * 0.42;      // cool key on the top edge
+  // Specular sheen across polished acrylic face
+  float specular = pow(clamp(0.55 - vP.x * 0.32 + vP.y * 0.28, 0.0, 1.0), 3.0);
+  vec3 col = glassBase + vec3(0.08, 0.09, 0.12) * specular * 0.75;
 
-  // a soft interior sheen, as if the room is reflected in the slab
-  float sheen = exp(-length(p - uLight * 0.7) * 1.3);
-  col += vec3(0.10, 0.03, 0.035) * sheen * (0.6 + uHover * 0.8);
+  // Edge rim & bevel Fresnel
+  float rim = smoothstep(0.095, 0.0, abs(d));
 
-  // --- logo --------------------------------------------------------------
+  // Subtle red/orange emissive rim or Fresnel glow (emissive: 0xff3b14, emissiveIntensity: 0.15)
+  vec3 emissive = vec3(1.0, 0.231, 0.078) * 0.15;
+  col += emissive * (0.8 + 0.6 * uHover);
+
+  // Directional stage lighting catch on bevel
+  col += vec3(0.95, 0.20, 0.15) * rim * (0.2 + 0.8 * facing) * (0.65 + uHover);
+  col += vec3(0.38, 0.65, 0.88) * rim * 0.35; // cool cyber cyan rim accent
+
+  // Soft interior sheen reflecting the ambient room
+  float sheen = exp(-length(p - uLight * 0.6) * 1.2);
+  col += vec3(0.12, 0.03, 0.035) * sheen * (0.6 + uHover * 0.8);
+
+  // Subtle 1px neon edge outline / accent strip (red to cyan gradient)
+  float neonEdge = smoothstep(0.018, 0.002, abs(d));
+  vec3 neonColor = mix(vec3(1.0, 0.231, 0.078), vec3(0.0, 0.82, 0.95), clamp(p.x * 0.5 + 0.5, 0.0, 1.0));
+  col += neonColor * neonEdge * 0.55;
+
+  // --- Logo -------------------------------------------------------------
   vec2 luv = (vP / uLogoScale) * 0.5 + 0.5;
   if(luv.x > 0.0 && luv.x < 1.0 && luv.y > 0.0 && luv.y < 1.0){
     vec4 lg = texture(uLogo, vec2(luv.x, 1.0 - luv.y));
-    // the artwork brightens under the cursor without changing hue
     vec3 lc = lg.rgb * (1.0 + uHover * 0.55);
-    col = mix(col, lc, lg.a * mix(0.55, 1.0, uMat));
+    col = mix(col, lc, lg.a * mix(0.65, 1.0, uMat));
   }
 
+  // Micro-surface grain
   float g = texture(uGrain, gl_FragCoord.xy / 512.0 + vec2(uTime * 0.01, 0.0)).r;
-  col += (g - 0.5) * 0.030;
+  col += (g - 0.5) * 0.025;
 
-  // distance haze: far cards sit back into the room's atmosphere
-  float haze = clamp((vDepth - 3.0) / 9.0, 0.0, 0.62);
-  col = mix(col, vec3(0.030, 0.012, 0.016), haze);
+  // Distance haze
+  float haze = clamp((vDepth - 3.0) / 9.0, 0.0, 0.55);
+  col = mix(col, vec3(0.025, 0.015, 0.020), haze);
 
-  float a = face * uOpacity;
+  // Dark acrylic opacity: 0.84 (transparent: true, depthWrite: false)
+  float a = face * 0.84 * uOpacity;
   frag = vec4(col * a, a);
 }`;
 
