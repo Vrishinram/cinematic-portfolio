@@ -1,121 +1,94 @@
-// Scene two — interactive cybersecurity tool universe (WebGL).
+// Scene two's lifecycle — the cinematic film, presented.
 //
-// Replaces the pre-rendered reference video with a live 3D amphitheater:
-// live room choreography, authentic cybersecurity & AI defense stack,
-// interactive pointer parallax, card hover, and sharp DOM typography.
+// The section IS the cinematic video, played as delivered (video stream
+// composited with Vrishin's authentic cybersecurity & AI tool stack). What this
+// file adds is presentation: the film arrives from black when the section is
+// reached, decodes only while it is actually on screen, and a veil breathes to
+// black across the loop point so the 10-second wrap is never seen as a cut.
+//
+// The procedural WebGL version of this room (universe.js, ribbon.js,
+// particles.js, shaders2.js) is parked, not deleted.
 
-import { createGL } from '../gl/renderer.js';
-import { Universe } from './universe.js';
-import { T2 } from './timeline2.js';
+const SEAM = 0.45;   // seconds of veil on each side of the wrap
 
 export async function initUniverse() {
   const section = document.getElementById('universe');
-  const canvas = document.getElementById('uniStage');
-  if (!section || !canvas) return null;
-
-  const gl = createGL(canvas);
-  if (!gl) {
-    section.classList.add('is-fallback');
-    return null;
-  }
+  const film = document.getElementById('uniFilm');
+  const veil = document.getElementById('uniVeil');
+  if (!section || !film || !veil) return null;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const coarseMQ = matchMedia('(pointer: coarse)');
-  const uni = new Universe(canvas, gl);
-  await uni.load();
+  const state = { visible: false, raf: 0, entered: false };
 
-  const state = {
-    started: 0,
-    running: false,
-    visible: false,
-    raf: 0,
-    last: 0,
-    scroll: 0,
+  const play = () => {
+    film.play().catch(() => {
+      // autoplay refused: arm a one-shot retry on the first real interaction
+      const retry = () => { film.play().catch(() => {}); };
+      window.addEventListener('pointerdown', retry, { once: true });
+      window.addEventListener('scroll', retry, { once: true });
+    });
   };
 
-  function place() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    uni.resize(window.innerWidth, window.innerHeight, dpr);
-  }
-
-  function frame(now) {
-    if (!state.running) return;
-    const t = reduced
-      ? T2.alive + 0.5
-      : Math.max(0, (now - state.started) / 1000);
-    const dt = Math.min(0.05, (now - state.last) / 1000 || 0.016);
-    state.last = now;
-    uni.render(t, dt, state.scroll);
-    state.raf = requestAnimationFrame(frame);
-  }
-
-  function start() {
-    if (state.running) return;
-    state.running = true;
-    if (!state.started) state.started = performance.now();
-    else if (reduced) state.started = performance.now() - (T2.alive + 0.5) * 1000;
-    state.last = performance.now();
-    section.classList.add('is-on');
-    state.raf = requestAnimationFrame(frame);
-  }
-
-  function stop() {
-    state.running = false;
-    cancelAnimationFrame(state.raf);
-  }
-
-  // pointer parallax + hover
-  section.addEventListener('pointermove', (e) => {
-    if (coarseMQ.matches) return;
-    const r = section.getBoundingClientRect();
-    uni.pointer.tx = ((e.clientX - r.left) / r.width) * 2 - 1;
-    uni.pointer.ty = ((e.clientY - r.top) / r.height) * 2 - 1;
-    uni.pointer.inside = true;
-    const hit = uni.pick(e.clientX - r.left, e.clientY - r.top);
-    if (hit !== uni.hovered) {
-      if (uni.hovered >= 0) uni.cards[uni.hovered].hover = 0;
-      uni.hovered = hit;
-    }
-  }, { passive: true });
-
-  section.addEventListener('pointerleave', () => {
-    uni.pointer.inside = false;
-    uni.pointer.tx = 0;
-    uni.pointer.ty = 0;
-    if (uni.hovered >= 0) uni.cards[uni.hovered].hover = 0;
-    uni.hovered = -1;
-  });
-
-  // light scroll dolly while the section is pinned in view
-  window.addEventListener('scroll', () => {
-    if (!state.visible) return;
-    const r = section.getBoundingClientRect();
-    const travel = Math.max(1, r.height - window.innerHeight);
-    state.scroll = Math.max(0, Math.min(1, -r.top / travel));
-  }, { passive: true });
+  // ---- the loop seam ------------------------------------------------------
+  // rVFC only fires while frames are actually being decoded, so this costs
+  // nothing when the section is off screen or the film is paused
+  const watchSeam = () => {
+    const tick = () => {
+      if (!state.visible) return;
+      const d = film.duration || 10;
+      const t = film.currentTime;
+      const toEnd = d - t;
+      const dip = Math.min(1, Math.min(t, Math.max(toEnd, 0)) / SEAM);
+      // fully dark only in the last/first breath of the wrap
+      veil.style.opacity = state.entered ? String((1 - dip) * 0.92) : '1';
+      state.raf = film.requestVideoFrameCallback
+        ? film.requestVideoFrameCallback(tick)
+        : requestAnimationFrame(tick);
+    };
+    state.raf = film.requestVideoFrameCallback
+      ? film.requestVideoFrameCallback(tick)
+      : requestAnimationFrame(tick);
+  };
 
   new IntersectionObserver((entries) => {
     for (const e of entries) {
       state.visible = e.isIntersecting;
-      if (e.isIntersecting) start();
-      else stop();
+      if (e.isIntersecting) {
+        if (!state.entered) {
+          state.entered = true;
+          section.classList.add('is-on');
+          veil.style.opacity = '0';
+        }
+        if (reduced) {
+          film.currentTime = Math.min(6.5, (film.duration || 10) * 0.6);
+          film.pause();
+          veil.style.opacity = '0';
+        } else {
+          play();
+          watchSeam();
+        }
+      } else {
+        film.pause();
+      }
     }
-  }, { threshold: 0.22 }).observe(section);
+  }, { threshold: 0.30 }).observe(section);
 
-  window.addEventListener('resize', () => {
-    place();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') film.pause();
+    else if (state.visible && !reduced) play();
   });
-  place();
 
-  // damp hover toward the picked card each frame via render's existing card.hover
-  const _render = uni.render.bind(uni);
-  uni.render = (t, dt, scroll) => {
-    for (const c of uni.cards) {
-      const want = c.i === uni.hovered ? 1 : 0;
-      c.hover += (want - c.hover) * Math.min(1, dt * 10);
+  film.addEventListener('error', () => section.classList.add('is-fallback'),
+    { once: true });
+
+  // warm the film once the page is otherwise idle, so scrolling into the
+  // section never waits on a 3 MB fetch
+  window.addEventListener('load', () => {
+    if (!state.entered && film.preload !== 'auto') {
+      film.preload = 'auto';
+      film.load();
     }
-    _render(t, dt, scroll);
-  };
+  }, { once: true });
 
-  return { uni, section };
+  return { film, section };
 }
