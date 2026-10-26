@@ -43,8 +43,8 @@ export const YEARS = [
   {
     year: '2026',
     img: '2026',
-    key: 'DEF CON & Leadership',
-    lines: ['DEF CON Trichy Founder', 'Google Ambassador', '5 Industry Internships'],
+    key: 'Leadership & Fests',
+    lines: ['NEXUS 26 Lead Judge', 'Cyber Aura 25 Lead', '5 Industry Internships'],
   },
 ];
 

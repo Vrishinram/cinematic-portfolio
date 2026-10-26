@@ -43,7 +43,7 @@ Unlike conventional web portfolios, this site renders an interactive, atmospheri
   - **2025 — Ethical Hacking Champion:** 1st Place @ IIT Madras Ethical Hacking Hackathon, 1st Prize AVINYA '25.
   - **2025 — SOC & SIEM Operations:** Cybersecurity Analyst Intern @ Vetri Technologies (Splunk SIEM), 1st Prize ERP Design.
   - **2026 — Published Research & AI:** First-Author IoT Intrusion Detection Paper (IJNRD IF 8.76, 98.31% Accuracy), Cybersicker AI.
-  - **2026 — DEF CON & Leadership:** Founded DEF CON Group Tiruchirappalli (DC0431), Google Campus Ambassador, 5 Industry Internships.
+  - **2026 — Leadership & 5 Internships:** Event Organizer & Lead Judge @ NEXUS '26, Lead Coordinator @ Cyber Aura '25, 5 Industry Internships.
 
 ### 4. **Scene 04 — Arsenal (3D Project Gallery & System Intel)**
 - Depth-sorted 3D spatial card deck with pointer yaw, scroll dolly, and hover elevation.
