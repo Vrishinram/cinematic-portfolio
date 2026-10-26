@@ -27,8 +27,8 @@ import { sample2 } from './timeline2.js';
 import { damp, clamp } from '../lib/ease.js';
 
 const TOOLS = [
-  'photoshop', 'figma', 'aftereffects', 'premiere', 'notion', 'lightroom',
-  'claude', 'chatgpt', 'midjourney', 'spline', 'framer', 'webflow',
+  'wireshark', 'splunk', 'nmap', 'metasploit', 'burpsuite', 'docker',
+  'claude', 'chatgpt', 'langchain', 'snort', 'python', 'linux',
 ];
 
 const CORNERS = [[-1, -1], [1, -1], [-1, 1], [1, 1]];

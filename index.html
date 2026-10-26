@@ -119,21 +119,32 @@
        cards are part of the footage; the DOM adds only what a screen reader
        needs and a veil that breathes over the loop seam. -->
   <section class="universe" id="universe" aria-labelledby="uniTitle">
-    <header class="universe__title" id="uniTitle">
-      <p class="universe__over">Scene 02</p>
-      <h2 class="universe__name">The Cyber &amp; AI<br>Universe</h2>
-      <p class="universe__sub">Offense · Defense · Automation · Intelligence</p>
-    </header>
+    <div class="universe__pin">
+      <canvas id="uniStage" aria-hidden="true"></canvas>
+
+      <header class="universe__title" id="uniTitle">
+        <p class="universe__over">Scene 02</p>
+        <h2 class="universe__name">The Cyber &amp; AI<br>Universe</h2>
+        <p class="universe__sub">Offense · Defense · Automation · Intelligence</p>
+      </header>
+
+      <p class="universe__edge universe__edge--l" aria-hidden="true">
+        Detect<br>Analyze<br>Contain<br>Remediate
+      </p>
+      <p class="universe__edge universe__edge--r" aria-hidden="true">
+        Hardened Systems<br>A Fortified<br>Tomorrow
+      </p>
+      <p class="universe__role" aria-hidden="true">Cybersecurity Analyst</p>
+      <p class="universe__impact" aria-hidden="true">
+        Tools<br>Threats<br>Defense<br>Impact
+      </p>
+    </div>
+
     <ul class="sr-only">
       <li>Wireshark</li><li>Splunk</li><li>Burp Suite</li><li>Docker</li>
-      <li>Python</li><li>Linux</li><li>Claude</li><li>ChatGPT</li>
-      <li>Nmap</li><li>Metasploit</li><li>Ghidra</li><li>Snort</li>
+      <li>Python</li><li>Kali Linux</li><li>Claude</li><li>ChatGPT</li>
+      <li>Nmap</li><li>Metasploit</li><li>LangChain</li><li>Snort</li>
     </ul>
-    <video id="uniFilm" muted playsinline loop preload="metadata"
-           poster="public/media/universe.jpg" aria-hidden="true">
-      <source src="public/media/universe.mp4" type="video/mp4">
-    </video>
-    <div class="universe__veil" id="uniVeil" aria-hidden="true"></div>
   </section>
 
   <!-- ==================================================================== -->

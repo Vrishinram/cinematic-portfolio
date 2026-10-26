@@ -1,62 +1,62 @@
 {
- "photoshop": {
-  "w": 132,
-  "h": 143,
-  "cover": 0.358
+ "wireshark": {
+  "w": 160,
+  "h": 170,
+  "cover": 0.28
  },
- "figma": {
-  "w": 140,
-  "h": 239,
-  "cover": 0.336
+ "splunk": {
+  "w": 160,
+  "h": 170,
+  "cover": 0.28
  },
- "aftereffects": {
-  "w": 84,
-  "h": 74,
-  "cover": 0.362
+ "nmap": {
+  "w": 150,
+  "h": 160,
+  "cover": 0.28
  },
- "premiere": {
-  "w": 63,
-  "h": 70,
-  "cover": 0.393
+ "metasploit": {
+  "w": 150,
+  "h": 160,
+  "cover": 0.28
  },
- "notion": {
-  "w": 95,
-  "h": 132,
-  "cover": 0.218
+ "burpsuite": {
+  "w": 160,
+  "h": 170,
+  "cover": 0.28
  },
- "lightroom": {
-  "w": 61,
-  "h": 70,
-  "cover": 0.245
+ "docker": {
+  "w": 150,
+  "h": 160,
+  "cover": 0.28
  },
  "claude": {
   "w": 168,
   "h": 212,
-  "cover": 0.262
+  "cover": 0.28
  },
  "chatgpt": {
   "w": 158,
   "h": 114,
-  "cover": 0.147
+  "cover": 0.28
  },
- "midjourney": {
-  "w": 137,
-  "h": 161,
-  "cover": 0.101
+ "langchain": {
+  "w": 160,
+  "h": 170,
+  "cover": 0.28
  },
- "spline": {
-  "w": 149,
-  "h": 73,
-  "cover": 0.292
+ "snort": {
+  "w": 160,
+  "h": 170,
+  "cover": 0.28
  },
- "framer": {
-  "w": 80,
-  "h": 135,
-  "cover": 0.189
+ "python": {
+  "w": 150,
+  "h": 160,
+  "cover": 0.28
  },
- "webflow": {
-  "w": 106,
-  "h": 114,
-  "cover": 0.342
+ "linux": {
+  "w": 160,
+  "h": 170,
+  "cover": 0.28
  }
 }

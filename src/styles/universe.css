@@ -1,10 +1,7 @@
 /* ==========================================================================
-   Scene two — the creative universe.
-   This is the supplied film played AS the section, not a recreation of it:
-   the cards, the red light-painting, the embers and every corner label are
-   part of the footage. The page's job is to present it cinematically — arrive
-   from black, hold the frame, and breathe over the loop seam — and to stay
-   out of its way.
+   Scene two — the cybersecurity defense stack (live WebGL room).
+   Cards, ribbons and the figure are drawn on #uniStage. Chapter title and
+   corner labels are DOM so they stay sharp and never bake in a project name.
    ========================================================================== */
 
 .flow {
@@ -21,35 +18,30 @@
 
 .universe {
   position: relative;
-  height: 100svh;
+  height: 160svh;              /* travel for a light dolly while pinned */
   background: #000;
   overflow: hidden;
-  /* hard cut from the hero: two scenes, not a gradient between them */
   box-shadow: 0 -1px 0 0 #000;
 }
 
-#uniFilm {
+.universe__pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+#uniStage {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  /* the film is 16:9; any other viewport crops rather than letterboxes,
-     keeping the figure centred and the frame full-bleed */
-  object-fit: cover;
-  object-position: 50% 42%;
-  opacity: 0;
-  transform: scale(1.045);
-  transition: opacity 1.9s var(--ease-out), transform 3.2s var(--ease-out);
-}
-.universe.is-on #uniFilm {
-  opacity: 1;
-  transform: scale(1);
+  display: block;
+  z-index: 0;
 }
 
 /* --------------------------------------------------------------------------
-   The chapter title, set over the film. Top-centre is the one region the
-   footage keeps dark (the ceiling above the figure), so the text lives there
-   and clears the Ps and Claude cards that hold the upper corners.
+   Chapter title — scene name, not a project title.
    -------------------------------------------------------------------------- */
 
 .universe__title {
@@ -61,8 +53,8 @@
   text-align: center;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 1.3s var(--ease-out) 0.75s,
-              transform 1.6s var(--ease-out) 0.75s;
+  transition: opacity 1.3s var(--ease-out) 0.55s,
+              transform 1.6s var(--ease-out) 0.55s;
 }
 .universe.is-on .universe__title { opacity: 1; transform: translate(-50%, 0); }
 
@@ -72,9 +64,9 @@
   font-size: clamp(7.5px, 0.62vw, 9.5px);
   font-weight: 500;
   letter-spacing: 0.5em;
-  text-indent: 0.5em;        /* recentre what the tracking pushes right */
+  text-indent: 0.5em;
   text-transform: uppercase;
-  color: #b98a6a;
+  color: #00e5ff;
 }
 .universe__name {
   margin: 0;
@@ -96,22 +88,79 @@
   letter-spacing: 0.42em;
   text-indent: 0.42em;
   text-transform: uppercase;
-  color: rgba(222, 200, 180, 0.55);
+  color: rgba(0, 255, 136, 0.75);
+}
+
+/* --------------------------------------------------------------------------
+   Corner furniture — cybersecurity defense slogans & role tags
+   -------------------------------------------------------------------------- */
+
+.universe__edge,
+.universe__role,
+.universe__impact {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-out) 1.1s;
+}
+.universe.is-on .universe__edge,
+.universe.is-on .universe__role,
+.universe.is-on .universe__impact { opacity: 1; }
+
+.universe__edge {
+  top: 42%;
+  font-family: var(--ui);
+  font-size: clamp(8px, 0.72vw, 11px);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  line-height: 1.55;
+  color: rgba(200, 220, 240, 0.55);
+}
+.universe__edge--l {
+  left: clamp(12px, 1.8vw, 28px);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.universe__edge--r {
+  right: clamp(12px, 1.8vw, 28px);
+  writing-mode: vertical-rl;
+  text-align: right;
+}
+
+.universe__role {
+  left: clamp(14px, 2vw, 32px);
+  bottom: clamp(22px, 4vh, 48px);
+  font-family: var(--ui);
+  font-size: clamp(9px, 0.85vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  text-transform: uppercase;
+  color: #00e5ff;
+}
+
+.universe__impact {
+  right: clamp(14px, 2vw, 32px);
+  bottom: clamp(22px, 4vh, 48px);
+  font-family: var(--ui);
+  font-size: clamp(8px, 0.7vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  text-align: right;
+  color: rgba(0, 255, 136, 0.85);
+  writing-mode: vertical-rl;
 }
 
 @media (max-width: 760px) {
   .universe__name { letter-spacing: 0.18em; text-indent: 0.18em; }
-}
-
-/* breathes to black across the film's loop point so the cut is never seen,
-   and doubles as the entrance veil */
-.universe__veil {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: 1;
-  pointer-events: none;
-  transition: opacity 0.45s ease;
+  .universe__edge { display: none; }
+  .universe__impact { display: none; }
+  .universe { height: 120svh; }
 }
 
 .universe.is-fallback::after {
@@ -119,9 +168,17 @@
   position: absolute;
   inset: 0;
   background: #000 url('../../public/media/universe.jpg') center / cover no-repeat;
+  opacity: 0.35;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #uniFilm, .universe__title { transition-duration: 0.01ms; transition-delay: 0s; transform: none; }
+  .universe__title,
+  .universe__edge,
+  .universe__role,
+  .universe__impact {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
+    transform: none;
+  }
   .universe.is-on .universe__title { transform: translate(-50%, 0); }
 }
