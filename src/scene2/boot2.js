@@ -1,15 +1,9 @@
 // Scene two's lifecycle — the cinematic film, presented.
 //
-// The section IS the cinematic video, played as delivered (video stream
-// composited with Vrishin's authentic cybersecurity & AI tool stack). What this
-// file adds is presentation: the film arrives from black when the section is
-// reached, decodes only while it is actually on screen, and a veil breathes to
-// black across the loop point so the 10-second wrap is never seen as a cut.
-//
-// The procedural WebGL version of this room (universe.js, ribbon.js,
-// particles.js, shaders2.js) is parked, not deleted.
-
-const SEAM = 0.45;   // seconds of veil on each side of the wrap
+// The section plays a 20-second seamless continuous loop composited with
+// Vrishin's authentic cybersecurity & AI tool stack. What this file adds is
+// smooth presentation: the film arrives smoothly from black when the section
+// is reached, and decodes only while actually visible on screen.
 
 export async function initUniverse() {
   const section = document.getElementById('universe');
@@ -18,7 +12,7 @@ export async function initUniverse() {
   if (!section || !film || !veil) return null;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const state = { visible: false, raf: 0, entered: false };
+  const state = { visible: false, entered: false };
 
   const play = () => {
     film.play().catch(() => {
@@ -27,27 +21,6 @@ export async function initUniverse() {
       window.addEventListener('pointerdown', retry, { once: true });
       window.addEventListener('scroll', retry, { once: true });
     });
-  };
-
-  // ---- the loop seam ------------------------------------------------------
-  // rVFC only fires while frames are actually being decoded, so this costs
-  // nothing when the section is off screen or the film is paused
-  const watchSeam = () => {
-    const tick = () => {
-      if (!state.visible) return;
-      const d = film.duration || 10;
-      const t = film.currentTime;
-      const toEnd = d - t;
-      const dip = Math.min(1, Math.min(t, Math.max(toEnd, 0)) / SEAM);
-      // fully dark only in the last/first breath of the wrap
-      veil.style.opacity = state.entered ? String((1 - dip) * 0.92) : '1';
-      state.raf = film.requestVideoFrameCallback
-        ? film.requestVideoFrameCallback(tick)
-        : requestAnimationFrame(tick);
-    };
-    state.raf = film.requestVideoFrameCallback
-      ? film.requestVideoFrameCallback(tick)
-      : requestAnimationFrame(tick);
   };
 
   new IntersectionObserver((entries) => {
@@ -60,12 +33,11 @@ export async function initUniverse() {
           veil.style.opacity = '0';
         }
         if (reduced) {
-          film.currentTime = Math.min(6.5, (film.duration || 10) * 0.6);
+          film.currentTime = 5.0;
           film.pause();
           veil.style.opacity = '0';
         } else {
           play();
-          watchSeam();
         }
       } else {
         film.pause();
@@ -82,7 +54,7 @@ export async function initUniverse() {
     { once: true });
 
   // warm the film once the page is otherwise idle, so scrolling into the
-  // section never waits on a 3 MB fetch
+  // section never waits on a network fetch
   window.addEventListener('load', () => {
     if (!state.entered && film.preload !== 'auto') {
       film.preload = 'auto';
